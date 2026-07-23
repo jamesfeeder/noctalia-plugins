@@ -6,7 +6,10 @@ It shows one chip for every populated or currently active special workspace,
 ordered by name. A filled primary chip is visible on at least one monitor; it
 remains shown with zero windows while active. A muted ghost chip is populated
 but hidden. Inactive empty special workspaces are not shown. Clicking a chip
-runs `hyprctl dispatch togglespecialworkspace <name>`.
+toggles that special workspace through Hyprland's dispatcher.
+
+The chips use the same compact active-pill and inactive-label treatment as
+Noctalia's regular workspace widget.
 
 ## Requirements
 
@@ -37,6 +40,15 @@ For a manual configuration, create a widget entry such as:
 ```toml
 [widget.special-workspaces]
 type = "jamesfeeder/special-workspaces:special-workspaces"
+```
+
+Names are shown in full by default. Set `max_label_chars` to a positive value
+to truncate them:
+
+```toml
+[widget.special-workspaces]
+type = "jamesfeeder/special-workspaces:special-workspaces"
+max_label_chars = 8
 ```
 
 After editing this checkout, reload or disable/enable the plugin from Settings to load the new scripts.

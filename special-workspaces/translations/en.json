@@ -1,0 +1,4 @@
+{
+  "settings.max_label_chars.label": "Maximum label characters",
+  "settings.max_label_chars.description": "Truncate workspace names to this many characters. Use 0 to show full names."
+}

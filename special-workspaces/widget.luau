@@ -1,7 +1,9 @@
 local STATE_KEY = "special_workspaces"
 local MAX_CALLBACKS = 64
+local PILL_HEIGHT = 16
 local state = noctalia.state.get(STATE_KEY) or {}
 local callbackTargets = {}
+local maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
 
 local function shellQuote(value)
   return "'" .. string.gsub(value, "'", "'\"'\"'") .. "'"
@@ -14,8 +16,22 @@ end
 local function toggleCallback(index)
   local name = callbackTargets[index]
   if name then
-    noctalia.runAsync("hyprctl dispatch togglespecialworkspace " .. shellQuote(name))
+    local dispatcher = "hl.dsp.workspace.toggle_special(" .. string.format("%q", name) .. ")"
+    local legacy = "hyprctl dispatch togglespecialworkspace " .. shellQuote(name)
+    noctalia.runAsync("hyprctl dispatch " .. shellQuote(dispatcher) .. " || " .. legacy)
   end
+end
+
+local function displayName(name)
+  if maxLabelChars <= 0 then
+    return name
+  end
+
+  local nextOffset = utf8.offset(name, maxLabelChars + 1)
+  if nextOffset then
+    return string.sub(name, 1, nextOffset - 1)
+  end
+  return name
 end
 
 -- Declarative UI callbacks must name globals that exist when the script is
@@ -101,8 +117,9 @@ local function render()
     local status = workspace.active and "visible" or "hidden"
     table.insert(chips, ui.button({
       key = name,
-      text = name,
+      text = displayName(name),
       variant = workspace.active and "primary" or "ghost",
+      height = PILL_HEIGHT,
       tooltip = hasCallback
         and (name .. " — " .. status .. " — " .. tostring(workspace.windowCount) .. " window" .. (workspace.windowCount == 1 and "" or "s"))
         or (name .. " — callback limit exceeded"),
