@@ -1,6 +1,6 @@
 local STATE_KEY = "special_workspaces"
 local MAX_CALLBACKS = 64
-local PILL_HEIGHT = 16
+local PILL_HEIGHT = 20
 local state = noctalia.state.get(STATE_KEY) or {}
 local callbackTargets = {}
 local maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0

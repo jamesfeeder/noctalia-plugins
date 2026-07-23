@@ -30,7 +30,7 @@ The service uses five-second polling while the event stream is unavailable or re
 - Chips are sorted by workspace name.
 - Active special workspaces remain visible with a zero window count when empty.
 - Inactive empty special workspaces are not rendered.
-- Chips match Noctalia's regular workspace widget at 16px high.
+- Chips follow Noctalia's regular workspace treatment with compact 20px pills.
 - Visible chips use the filled `primary` button variant.
 - Hidden populated chips use the label-like `ghost` button variant.
 - Workspace labels show their full name by default and can be truncated with

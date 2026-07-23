@@ -35,7 +35,7 @@ It displays populated Hyprland special workspaces as clickable bar chips.
 - `active` means visible on any monitor, not focused.
 - Preserve alphabetical ordering by workspace name.
 - Shell-quote workspace names before including them in a `hyprctl dispatch` command.
-- Match Noctalia's regular workspace widget: 16px pills, primary active state,
+- Match Noctalia's regular workspace widget: compact pills, primary active state,
   and ghost inactive state.
 - Keep chip callbacks as statically declared globals; Noctalia seals `_G` after script load.
 - Retain the last valid state when `hyprctl` fails. Socket failures must keep the polling fallback available.
