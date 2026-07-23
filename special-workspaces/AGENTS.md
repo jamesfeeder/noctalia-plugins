@@ -30,7 +30,8 @@ It displays populated Hyprland special workspaces as clickable bar chips.
 
 - Keep the manifest compatible with Noctalia plugin API 3 unless a newer API capability is required.
 - Keep all state exchanged between entries plain data through `noctalia.state`; entries run in isolated VMs.
-- Do not render empty special workspaces.
+- Render active special workspaces even when empty. Do not render inactive empty
+  special workspaces.
 - `active` means visible on any monitor, not focused.
 - Preserve alphabetical ordering by workspace name.
 - Shell-quote workspace names before including them in a `hyprctl dispatch` command.

@@ -2,14 +2,14 @@
 
 ## Purpose
 
-`jamesfeeder/special-workspaces` is a Noctalia v5 bar plugin for Hyprland. It gives populated special workspaces a persistent, directly clickable representation in the bar.
+`jamesfeeder/special-workspaces` is a Noctalia v5 bar plugin for Hyprland. It gives populated and currently active special workspaces a directly clickable representation in the bar.
 
 ## Domain language
 
 | Term | Meaning |
 | --- | --- |
 | Special workspace | A Hyprland workspace whose reported name has the `special:` prefix. The plugin displays the suffix. |
-| Populated | Contains one or more Hyprland clients. Only populated workspaces are rendered. |
+| Populated | Contains one or more Hyprland clients. Populated workspaces remain rendered while inactive. |
 | Active | Visible on at least one monitor through `monitor.specialWorkspace`; this does not mean focused. |
 | Inactive | Populated but not currently visible on any monitor. |
 | Snapshot | A combined reading of `hyprctl -j clients` and `hyprctl -j monitors`. |
@@ -28,6 +28,8 @@ The service uses five-second polling while the event stream is unavailable or re
 ## User-visible behavior
 
 - Chips are sorted by workspace name.
+- Active special workspaces remain visible with a zero window count when empty.
+- Inactive empty special workspaces are not rendered.
 - Visible chips use the `primary` button variant.
 - Hidden populated chips use the `ghost` button variant.
 - Tooltips include workspace name, visibility state, and window count.

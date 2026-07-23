@@ -1,4 +1,5 @@
--- Publishes populated Hyprland special workspaces to the plugin state channel.
+-- Publishes populated or active Hyprland special workspaces to the plugin state
+-- channel.
 -- Hyprland's event socket gives immediate refreshes; polling is kept as a
 -- recovery path when socat/the socket cannot provide events.
 
@@ -66,8 +67,13 @@ local function snapshotFromJson(clientsJson, monitorsJson)
   for _, monitor in ipairs(monitors) do
     local special = monitor.specialWorkspace
     local name = special and specialName(special.name)
-    if name and workspaces[name] then
-      workspaces[name].active = true
+    if name then
+      local item = workspaces[name]
+      if not item then
+        item = { name = name, windowCount = 0, active = false }
+        workspaces[name] = item
+      end
+      item.active = true
     end
   end
 

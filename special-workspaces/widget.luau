@@ -103,7 +103,6 @@ local function render()
       key = name,
       text = name,
       variant = workspace.active and "primary" or "ghost",
-      controlSize = "sm",
       tooltip = hasCallback
         and (name .. " — " .. status .. " — " .. tostring(workspace.windowCount) .. " window" .. (workspace.windowCount == 1 and "" or "s"))
         or (name .. " — callback limit exceeded"),

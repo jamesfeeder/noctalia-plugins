@@ -2,7 +2,11 @@
 
 A [Noctalia v5](https://docs.noctalia.dev/v5/plugins/) bar widget for Hyprland special workspaces.
 
-It shows one chip for every populated special workspace, ordered by name. A filled primary chip is visible on at least one monitor; a muted ghost chip is populated but hidden. Empty special workspaces are not shown. Clicking a chip runs `hyprctl dispatch togglespecialworkspace <name>`.
+It shows one chip for every populated or currently active special workspace,
+ordered by name. A filled primary chip is visible on at least one monitor; it
+remains shown with zero windows while active. A muted ghost chip is populated
+but hidden. Inactive empty special workspaces are not shown. Clicking a chip
+runs `hyprctl dispatch togglespecialworkspace <name>`.
 
 ## Requirements
 
