@@ -1,6 +1,6 @@
 local STATE_KEY = "special_workspaces"
 local MAX_CALLBACKS = 64
-local PILL_HEIGHT = 20
+local PILL_HEIGHT = 16
 local state = noctalia.state.get(STATE_KEY) or {}
 local callbackTargets = {}
 local maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
@@ -115,16 +115,22 @@ local function render()
       callbackTargets[index] = name
     end
     local status = workspace.active and "visible" or "hidden"
-    table.insert(chips, ui.button({
+    table.insert(chips, ui.row({
       key = name,
-      text = displayName(name),
-      variant = workspace.active and "primary" or "ghost",
-      height = PILL_HEIGHT,
-      tooltip = hasCallback
-        and (name .. " — " .. status .. " — " .. tostring(workspace.windowCount) .. " window" .. (workspace.windowCount == 1 and "" or "s"))
-        or (name .. " — callback limit exceeded"),
-      enabled = hasCallback,
-      onClick = callback,
+      fill = workspace.active and "primary" or "#00000000",
+      radius = PILL_HEIGHT / 2,
+      align = "center",
+    }, {
+      ui.button({
+        text = displayName(name),
+        variant = "ghost",
+        height = PILL_HEIGHT,
+        tooltip = hasCallback
+          and (name .. " — " .. status .. " — " .. tostring(workspace.windowCount) .. " window" .. (workspace.windowCount == 1 and "" or "s"))
+          or (name .. " — callback limit exceeded"),
+        enabled = hasCallback,
+        onClick = callback,
+      }),
     }))
   end
 
