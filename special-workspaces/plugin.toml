@@ -1,0 +1,18 @@
+id = "jamesfeeder/special-workspaces"
+name = "Special Workspaces"
+version = "1.0.0"
+plugin_api = 3
+author = "jamesfeeder"
+license = "MIT"
+icon = "stack-2"
+description = "Show populated Hyprland special workspaces as toggleable bar chips."
+tags = ["hyprland", "workspaces", "bar"]
+dependencies = ["hyprctl", "socat"]
+
+[[service]]
+id = "workspace-state"
+entry = "service.luau"
+
+[[widget]]
+id = "special-workspaces"
+entry = "widget.luau"
