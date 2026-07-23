@@ -17,13 +17,13 @@ This is a single-context project. See `docs/agents/domain.md`.
 ## Project
 
 This repository is a Noctalia v5 plugin with id `jamesfeeder/special-workspaces`.
-It displays populated Hyprland special workspaces as clickable bar chips.
+It displays populated Hyprland special workspaces as bar chips.
 
 ## Files
 
 - `plugin.toml` — plugin metadata and entry declarations.
 - `service.luau` — snapshots Hyprland state, watches `.socket2.sock`, and publishes shared state.
-- `widget.luau` — renders the Noctalia declarative bar widget and dispatches chip clicks.
+- `widget.luau` — renders the Noctalia declarative bar widget.
 - `README.md` — installation and behavior documentation.
 
 ## Development rules
@@ -34,12 +34,10 @@ It displays populated Hyprland special workspaces as clickable bar chips.
   special workspaces.
 - `active` means visible on any monitor, not focused.
 - Preserve alphabetical ordering by workspace name.
-- Shell-quote workspace names before including them in a `hyprctl dispatch` command.
 - Match Noctalia's regular workspace widget: compact pills, primary active state,
-  and ghost inactive state.
-- Keep chip callbacks as statically declared globals; Noctalia seals `_G` after script load.
+  and secondary inactive state.
 - Retain the last valid state when `hyprctl` fails. Socket failures must keep the polling fallback available.
-- Use `barWidget.render()` and keyed `ui.button` children for widget UI changes.
+- Use `barWidget.render()` and keyed layout children for widget UI changes.
 
 ## Validation
 

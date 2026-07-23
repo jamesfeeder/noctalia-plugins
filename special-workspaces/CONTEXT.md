@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`jamesfeeder/special-workspaces` is a Noctalia v5 bar plugin for Hyprland. It gives populated and currently active special workspaces a directly clickable representation in the bar.
+`jamesfeeder/special-workspaces` is a Noctalia v5 bar plugin for Hyprland. It gives populated and currently active special workspaces a visual representation in the bar.
 
 ## Domain language
 
@@ -20,7 +20,6 @@
 ```text
 Hyprland clients + monitors ──► service snapshot ──► noctalia.state
 Hyprland socket events ───────► refresh snapshot ──► widget chips
-widget chip click ────────────► hyprctl togglespecialworkspace <name>
 ```
 
 The service uses five-second polling while the event stream is unavailable or reconnecting. It does not replace a previously published state following a transient command failure.
@@ -32,13 +31,10 @@ The service uses five-second polling while the event stream is unavailable or re
 - Inactive empty special workspaces are not rendered.
 - Chips follow Noctalia's regular workspace treatment with slim 16px pills and
   fully rounded ends.
-- Visible chips use a rounded `primary` container with a ghost click target.
-- Hidden populated chips use the label-like `ghost` button variant.
+- Visible chips use a rounded `primary` container.
+- Hidden populated chips use a rounded `secondary` container by default.
 - Workspace labels show their full name by default and can be truncated with
   the widget's maximum-label-characters setting.
-- Tooltips include workspace name, visibility state, and window count.
-- Workspace names may contain spaces or single quotes; dispatch commands quote them safely.
-- Noctalia requires statically declared UI callback globals. The widget maintains 64 callback slots and disables any overflow chip.
 
 ## Constraints
 

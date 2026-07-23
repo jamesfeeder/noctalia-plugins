@@ -1,4 +1,6 @@
 {
   "settings.max_label_chars.label": "Maximum label characters",
-  "settings.max_label_chars.description": "Truncate workspace names to this many characters. Use 0 to show full names."
+  "settings.max_label_chars.description": "Truncate workspace names to this many characters. Use 0 to show full names.",
+  "settings.secondary_inactive.label": "Fill inactive workspaces",
+  "settings.secondary_inactive.description": "Use the secondary palette color instead of a transparent background for inactive workspaces."
 }
