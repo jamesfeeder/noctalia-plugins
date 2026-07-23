@@ -1,6 +1,9 @@
 local STATE_KEY = "special_workspaces"
 local MAX_CALLBACKS = 64
 local PILL_HEIGHT = 16
+local PILL_GAP = 4
+local PILL_PADDING = PILL_HEIGHT * 0.3
+local ACTIVE_PILL_MIN_WIDTH = PILL_HEIGHT * 2.2
 local state = noctalia.state.get(STATE_KEY) or {}
 local callbackTargets = {}
 local maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
@@ -114,27 +117,26 @@ local function render()
     if hasCallback then
       callbackTargets[index] = name
     end
-    local status = workspace.active and "visible" or "hidden"
     table.insert(chips, ui.row({
       key = name,
-      fill = workspace.active and "primary" or "#00000000",
-      radius = PILL_HEIGHT / 2,
+      height = PILL_HEIGHT,
+      minWidth = workspace.active and ACTIVE_PILL_MIN_WIDTH or PILL_HEIGHT,
+      paddingH = PILL_PADDING,
       align = "center",
+      justify = "center",
+      fill = workspace.active and "primary" or "secondary",
+      radius = PILL_HEIGHT / 2,
+      onClick = callback,
     }, {
-      ui.button({
+      ui.label({
         text = displayName(name),
-        variant = "ghost",
-        height = PILL_HEIGHT,
-        tooltip = hasCallback
-          and (name .. " — " .. status .. " — " .. tostring(workspace.windowCount) .. " window" .. (workspace.windowCount == 1 and "" or "s"))
-          or (name .. " — callback limit exceeded"),
-        enabled = hasCallback,
-        onClick = callback,
+        fontSize = 11,
+        color = workspace.active and "on_primary" or "on_secondary",
       }),
     }))
   end
 
-  barWidget.render(container({ gap = 4, align = "center" }, chips))
+  barWidget.render(container({ gap = PILL_GAP, align = "center" }, chips))
 end
 
 noctalia.state.watch(STATE_KEY, function(value)
