@@ -33,7 +33,9 @@ It displays populated Hyprland special workspaces as bar chips.
   35px); both apply to active and inactive capsules and clamp negative values
   to 0px. On vertical bars, swap capsule axes and stack truncated workspace
   names one Unicode character per line from top to bottom.
-- Retain the last valid state when `hyprctl` fails. Socket failures must keep the polling fallback available.
+- Retain the last valid state when `hyprctl` fails. Keep updates event-driven:
+  take an initial snapshot, reconnect the event stream after socket failures,
+  and refresh the snapshot on each connection attempt.
 - Use `barWidget.render()` and keyed layout children for widget UI changes.
 
 ## Validation

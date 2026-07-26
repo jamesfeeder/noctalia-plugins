@@ -1,24 +1,14 @@
 -- Publishes populated or active Hyprland special workspaces to the plugin state
 -- channel.
--- Hyprland's event socket gives immediate refreshes; polling is kept as a
--- recovery path when socat/the socket cannot provide events.
+-- Hyprland's event socket triggers snapshots after relevant changes.
 
 local STATE_KEY = "special_workspaces"
-local POLL_INTERVAL_MS = 5000
 local SEPARATOR = "__NOCTALIA_SPECIAL_WORKSPACES_MONITORS__"
-local STREAM_RETRY_MARKER = "__NOCTALIA_SPECIAL_WORKSPACES_STREAM_RETRY__"
+local STREAM_REFRESH_MARKER = "__NOCTALIA_SPECIAL_WORKSPACES_STREAM_REFRESH__"
 
-local polling = true
-local loggedPolling = false
 local loggedSnapshotError = false
 local refreshInFlight = false
-
-local function logPolling(reason)
-  if not loggedPolling then
-    noctalia.log("Special workspaces: polling every 5 seconds (" .. reason .. ")")
-    loggedPolling = true
-  end
-end
+local refreshPending = false
 
 local function logSnapshotError(message)
   if not loggedSnapshotError then
@@ -99,22 +89,27 @@ end
 
 local function refresh()
   if refreshInFlight then
+    refreshPending = true
     return
   end
   refreshInFlight = true
   local started = noctalia.runAsync("hyprctl -j clients; printf '\\n" .. SEPARATOR .. "\\n'; hyprctl -j monitors", function(result)
-    refreshInFlight = false
     if result.exitCode ~= 0 then
       logSnapshotError("hyprctl failed")
-      return
+    else
+      local markerStart, markerEnd = string.find(result.stdout, "\n" .. SEPARATOR .. "\n", 1, true)
+      if not markerStart then
+        logSnapshotError("incomplete hyprctl snapshot")
+      else
+        publishSnapshot(string.sub(result.stdout, 1, markerStart - 1), string.sub(result.stdout, markerEnd + 1))
+      end
     end
 
-    local markerStart, markerEnd = string.find(result.stdout, "\n" .. SEPARATOR .. "\n", 1, true)
-    if not markerStart then
-      logSnapshotError("incomplete hyprctl snapshot")
-      return
+    refreshInFlight = false
+    if refreshPending then
+      refreshPending = false
+      refresh()
     end
-    publishSnapshot(string.sub(result.stdout, 1, markerStart - 1), string.sub(result.stdout, markerEnd + 1))
   end)
   if not started then
     refreshInFlight = false
@@ -145,65 +140,47 @@ local refreshEvents = {
   monitorremoved = true,
 }
 
-local function enablePolling(reason)
-  polling = true
-  logPolling(reason)
-  refresh()
-end
-
 local function startEventStream()
   if not noctalia.commandExists("socat") then
-    enablePolling("socat is unavailable")
+    noctalia.log("Special workspaces: socat is unavailable; event updates disabled")
     return
   end
 
   local runtimeDir = noctalia.getenv("XDG_RUNTIME_DIR")
   local signature = noctalia.getenv("HYPRLAND_INSTANCE_SIGNATURE")
   if not runtimeDir or not signature then
-    enablePolling("Hyprland environment is unavailable")
+    noctalia.log("Special workspaces: Hyprland environment is unavailable; event updates disabled")
     return
   end
 
   local socket = runtimeDir .. "/hypr/" .. signature .. "/.socket2.sock"
   -- Keep a single helper alive across temporary socket failures. Noctalia stops
   -- the complete stream command automatically when this service exits.
-  local command = "while true; do socat -u UNIX-CONNECT:" .. shellQuote(socket)
-    .. " - 2>&1; printf '" .. STREAM_RETRY_MARKER .. "\\n'; sleep 5; done"
+  local command = "while true; do while [ ! -S " .. shellQuote(socket)
+    .. " ]; do sleep 5; done; printf '" .. STREAM_REFRESH_MARKER
+    .. "\\n'; socat -u UNIX-CONNECT:" .. shellQuote(socket)
+    .. " - 2>&1; sleep 5; done"
   local started = noctalia.runStream(command, function(line)
-    if line == STREAM_RETRY_MARKER then
-      enablePolling("event stream reconnecting")
+    if line == STREAM_REFRESH_MARKER then
+      refresh()
       return
     end
 
     local event = string.match(line, "^([%a%d_]+)>>")
     if event then
-      polling = false
-      loggedPolling = false
       if refreshEvents[event] then
         refresh()
       end
-    elseif string.find(line, "socat", 1, true) or string.find(line, "error", 1, true) then
-      enablePolling("event socket error")
     end
   end)
 
   if not started then
-    enablePolling("could not start socat")
-  else
-    -- Until an event proves the stream healthy, polling provides the fallback.
-    logPolling("waiting for the Hyprland event stream")
+    noctalia.log("Special workspaces: could not start socat event stream")
   end
 end
 
-noctalia.setUpdateInterval(POLL_INTERVAL_MS)
 refresh()
 startEventStream()
-
-function update()
-  if polling then
-    refresh()
-  end
-end
 
 function onOutputsChanged()
   refresh()

@@ -22,7 +22,10 @@ Hyprland clients + monitors ──► service snapshot ──► noctalia.state
 Hyprland socket events ───────► refresh snapshot ──► widget chips
 ```
 
-The service uses five-second polling while the event stream is unavailable or reconnecting. It does not replace a previously published state following a transient command failure.
+The service takes an initial snapshot and refreshes from relevant socket
+events. After a socket failure, it waits for the socket to return, refreshes
+the snapshot, and reconnects. It does not replace a previously published state
+following a transient command failure.
 
 ## User-visible behavior
 
