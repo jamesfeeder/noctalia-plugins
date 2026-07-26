@@ -6,7 +6,7 @@ author = "jamesfeeder"
 license = "MIT"
 icon = "stack-2"
 description = "Show populated Hyprland special workspaces as bar chips."
-tags = ["hyprland", "workspaces", "bar"]
+tags = ["hyprland", "indicator", "bar"]
 dependencies = ["hyprctl", "socat"]
 
 [[service]]

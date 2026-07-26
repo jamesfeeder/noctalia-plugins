@@ -10,29 +10,33 @@ hidden. Inactive empty special workspaces are not shown.
 The chips use the same compact active-pill and inactive-label treatment as
 Noctalia's regular workspace widget.
 
+## Plugin
+
+| Field | Value |
+| --- | --- |
+| id | `jamesfeeder/special-workspaces` |
+| version | `1.1.3` |
+| plugin API | `3` |
+| widget | `jamesfeeder/special-workspaces:special-workspaces` |
+
 ## Requirements
 
-- Noctalia v5 with plugin API 3 or newer
-- Hyprland
-- `hyprctl`
-- `socat` (for immediate event-driven updates)
+- Noctalia v5 with plugin API 3 or newer.
+- Hyprland.
+- `hyprctl`.
+- `socat` for immediate event-driven updates.
 
-## Local development
+## Usage
 
-Place or clone this checkout in a source directory as `special-workspaces/`, then
-add its parent as the path source and enable the plugin:
+Enable the plugin:
 
 ```sh
-noctalia msg plugins source add special-workspaces-dev path /absolute/path/to/source-directory
 noctalia msg plugins enable jamesfeeder/special-workspaces
 ```
 
-Noctalia path sources discover plugins as child directories whose name matches
-the plugin id suffix. The resulting layout must be
-`/absolute/path/to/source-directory/special-workspaces/plugin.toml`; directory
-symlinks are not supported by the loader. In Noctalia, open **Settings →
-Plugins**, enable **Special Workspaces**, then use the bar’s **Add widget**
-picker to add `jamesfeeder/special-workspaces:special-workspaces`.
+In Noctalia, open **Settings → Plugins**, enable **Special Workspaces**, then
+use the bar's **Add widget** picker to add
+`jamesfeeder/special-workspaces:special-workspaces`.
 
 For a manual configuration, create a widget entry such as:
 
@@ -40,6 +44,8 @@ For a manual configuration, create a widget entry such as:
 [widget.special-workspaces]
 type = "jamesfeeder/special-workspaces:special-workspaces"
 ```
+
+## Settings
 
 Names are shown in full by default. Set `max_label_chars` to a positive value
 to truncate them. Hidden workspace chips use the secondary palette color by
@@ -52,14 +58,32 @@ max_label_chars = 8
 secondary_inactive = false
 ```
 
-After editing this checkout, reload or disable/enable the plugin from Settings to load the new scripts.
-
-## Updates and fallback
+## Notes
 
 The service takes its initial snapshot from `hyprctl -j clients` and `hyprctl -j monitors`, then listens to Hyprland’s `.socket2.sock` through `socat`. Workspace, window, and monitor events refresh the chips immediately.
 
 If `socat`, the socket, or the Hyprland environment is unavailable, it keeps the last valid result and polls every five seconds until events are available again. Workspace names are shell-quoted before dispatch, including names containing spaces or single quotes.
 
-## Screenshots
+## Local development
 
-_Screenshot placeholder: populated visible and hidden special-workspace chips on a Noctalia bar._
+Add the repository root as a Noctalia path source:
+
+```sh
+noctalia msg plugins source add jamesfeeder-dev path /absolute/path/to/noctalia-plugins
+noctalia msg plugins enable jamesfeeder/special-workspaces
+```
+
+Noctalia discovers child plugin directories matching their id suffix. Directory
+symlinks are not supported. Luau edits hot-reload; after manifest changes,
+reload the config or disable and re-enable the plugin.
+
+Run repository checks from the checkout root:
+
+```sh
+./.tools/check.sh
+```
+
+## TODO
+
+- Add an optional 960×540 `thumbnail.webp` showing visible and hidden chips.
+- Add CI validation after repository-local checks stabilize.

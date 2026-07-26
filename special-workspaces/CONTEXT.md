@@ -40,4 +40,5 @@ The service uses five-second polling while the event stream is unavailable or re
 
 - Noctalia plugin APIs are beta and may change.
 - The plugin requires `hyprctl` and `socat`.
-- There is intentionally no remote publishing or community-plugin submission workflow in this repository.
+- Publishing and catalog concerns belong to the repository root, not this
+  plugin's runtime domain.

@@ -1,22 +1,12 @@
-# Agent Guide
+# Special Workspaces Agent Guide
 
-## Agent skills
+Read root `AGENTS.md` for repository rules and this directory's `CONTEXT.md`
+before changing behavior.
 
-### Issue tracker
+## Plugin
 
-Issues use local Markdown under `.scratch/`. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-Use the five standard triage labels. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-This is a single-context project. See `docs/agents/domain.md`.
-
-## Project
-
-This repository is a Noctalia v5 plugin with id `jamesfeeder/special-workspaces`.
+This directory is a Noctalia v5 plugin with id
+`jamesfeeder/special-workspaces`.
 It displays populated Hyprland special workspaces as bar chips.
 
 ## Files
@@ -41,10 +31,11 @@ It displays populated Hyprland special workspaces as bar chips.
 
 ## Validation
 
-Run the built-in offline lint after changing the manifest or scripts:
+Run repository checks after changing the manifest, docs, translations, or
+scripts:
 
 ```sh
-noctalia plugins lint .
+./.tools/check.sh
 ```
 
 For live checks, ensure the checkout directory is named `special-workspaces`, add its parent as a Noctalia path source, enable the plugin, then test visible, hidden, empty, moved, and quoted-name special workspaces. Noctalia does not load entry scripts through a symlinked plugin directory.
