@@ -18,7 +18,25 @@ def ignore_agent_paths(_directory: str, names: list[str]) -> set[str]:
     return AGENT_PATHS.intersection(names)
 
 
+def clean_output() -> None:
+    if OUTPUT.exists():
+        shutil.rmtree(OUTPUT)
+
+
+def remove_empty_directories() -> None:
+    directories = sorted(
+        (path for path in OUTPUT.rglob("*") if path.is_dir()),
+        key=lambda path: len(path.parts),
+        reverse=True,
+    )
+    for directory in directories:
+        if not any(directory.iterdir()):
+            directory.rmdir()
+
+
 def main() -> int:
+    clean_output()
+
     manifests = sorted(ROOT.glob("*/plugin.toml"))
     if not manifests:
         print("error: no child plugin.toml manifests found", file=sys.stderr)
@@ -32,8 +50,6 @@ def main() -> int:
         )
         return 1
 
-    if OUTPUT.exists():
-        shutil.rmtree(OUTPUT)
     OUTPUT.mkdir()
 
     for name in ROOT_FILES:
@@ -47,6 +63,7 @@ def main() -> int:
             ignore=ignore_agent_paths,
         )
 
+    remove_empty_directories()
     print(f"exported {len(manifests)} plugin(s) to {OUTPUT.relative_to(ROOT)}")
     return 0
 
