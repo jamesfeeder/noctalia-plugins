@@ -25,7 +25,8 @@ Hyprland socket events ───────► refresh snapshot ──► widge
 The service takes an initial snapshot and refreshes from relevant socket
 events. After a socket failure, it waits for the socket to return, refreshes
 the snapshot, and reconnects. It does not replace a previously published state
-following a transient command failure.
+following a transient command failure; failed snapshots are retried up to twice
+at one-second intervals.
 
 ## User-visible behavior
 

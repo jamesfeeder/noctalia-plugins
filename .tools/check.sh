@@ -7,6 +7,15 @@ cd "$repo_root"
 ./.tools/validate.py
 ./.tools/generate-catalog.py --check
 
+if command -v lua >/dev/null 2>&1; then
+  for test_file in ./*/tests/*_test.lua; do
+    [ -f "$test_file" ] || continue
+    lua "$test_file"
+  done
+else
+  echo "warning: lua not found; plugin unit tests skipped" >&2
+fi
+
 if command -v noctalia >/dev/null 2>&1; then
   for manifest in ./*/plugin.toml; do
     plugin_dir=${manifest%/plugin.toml}
@@ -15,4 +24,3 @@ if command -v noctalia >/dev/null 2>&1; then
 else
   echo "warning: noctalia CLI not found; runtime lint skipped" >&2
 fi
-

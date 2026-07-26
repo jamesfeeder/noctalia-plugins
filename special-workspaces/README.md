@@ -49,4 +49,4 @@ can be hidden with `hide_inactive`.
   listens to Hyprland's `.socket2.sock` through `socat`.
 - If the event socket disconnects, the service waits for it to return,
   refreshes its snapshot, and reconnects. It retains the last valid state while
-  `hyprctl` is unavailable.
+  `hyprctl` is unavailable and retries failed snapshots up to twice.

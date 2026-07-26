@@ -5,6 +5,7 @@
 local STATE_KEY = "special_workspaces"
 local SEPARATOR = "__NOCTALIA_SPECIAL_WORKSPACES_MONITORS__"
 local STREAM_REFRESH_MARKER = "__NOCTALIA_SPECIAL_WORKSPACES_STREAM_REFRESH__"
+local SNAPSHOT_ATTEMPTS = 3
 
 local loggedSnapshotError = false
 local refreshInFlight = false
@@ -93,7 +94,12 @@ local function refresh()
     return
   end
   refreshInFlight = true
-  local started = noctalia.runAsync("hyprctl -j clients; printf '\\n" .. SEPARATOR .. "\\n'; hyprctl -j monitors", function(result)
+  local command = "attempt=1; while [ \"$attempt\" -le " .. SNAPSHOT_ATTEMPTS
+    .. " ]; do clients=$(hyprctl -j clients) && monitors=$(hyprctl -j monitors)"
+    .. " && { printf '%s\\n" .. SEPARATOR .. "\\n%s\\n' \"$clients\" \"$monitors\"; exit 0; };"
+    .. " attempt=$((attempt + 1)); [ \"$attempt\" -le " .. SNAPSHOT_ATTEMPTS
+    .. " ] && sleep 1; done; exit 1"
+  local started = noctalia.runAsync(command, function(result)
     if result.exitCode ~= 0 then
       logSnapshotError("hyprctl failed")
     else
@@ -138,6 +144,7 @@ local refreshEvents = {
   monitoradded = true,
   monitoraddedv2 = true,
   monitorremoved = true,
+  monitorremovedv2 = true,
 }
 
 local function startEventStream()

@@ -35,16 +35,20 @@ It displays populated Hyprland special workspaces as bar chips.
   names one Unicode character per line from top to bottom.
 - Retain the last valid state when `hyprctl` fails. Keep updates event-driven:
   take an initial snapshot, reconnect the event stream after socket failures,
-  and refresh the snapshot on each connection attempt.
+  refresh the snapshot on each connection attempt, and retry failed snapshots
+  at most twice without enabling periodic polling.
 - Use `barWidget.render()` and keyed layout children for widget UI changes.
 
 ## Validation
 
-Run repository checks after changing the manifest, docs, translations, or
-scripts:
+Run repository checks after changing the manifest, docs, translations, scripts,
+or service behavior:
 
 ```sh
 ./.tools/check.sh
 ```
+
+The repository check runs `tests/service_retry_test.lua` when `lua` is
+available.
 
 For live checks, ensure the checkout directory is named `special-workspaces`, add its parent as a Noctalia path source, enable the plugin, then test visible, hidden, empty, moved, and quoted-name special workspaces. Noctalia does not load entry scripts through a symlinked plugin directory.
