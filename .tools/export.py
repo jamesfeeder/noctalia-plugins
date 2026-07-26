@@ -11,11 +11,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / ".dist"
 ROOT_FILES = ("README.md", "LICENSE", "catalog.toml")
-AGENT_PATHS = {"AGENTS.md", "CLAUDE.md", "CONTEXT.md", ".agents", ".codex"}
+EXCLUDED_PATHS = {
+    "AGENTS.md",
+    "CLAUDE.md",
+    "CONTEXT.md",
+    ".agents",
+    ".codex",
+    "tests",
+}
 
 
-def ignore_agent_paths(_directory: str, names: list[str]) -> set[str]:
-    return AGENT_PATHS.intersection(names)
+def ignore_development_paths(_directory: str, names: list[str]) -> set[str]:
+    return EXCLUDED_PATHS.intersection(names)
 
 
 def clean_output() -> None:
@@ -60,7 +67,7 @@ def main() -> int:
         shutil.copytree(
             plugin_dir,
             OUTPUT / plugin_dir.name,
-            ignore=ignore_agent_paths,
+            ignore=ignore_development_paths,
         )
 
     remove_empty_directories()
