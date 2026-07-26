@@ -67,10 +67,12 @@ offline structural validation, verifies the catalog is current, then runs
 
 # Validate everything without changing tracked files
 ./.tools/check.sh
+
+# Build a publication-ready source tree in .dist/
+./.tools/export.py
 ```
 
 ## TODO
 
 - Add CI validation after local conventions stabilize.
 - Add optional thumbnails for visual plugins.
-
