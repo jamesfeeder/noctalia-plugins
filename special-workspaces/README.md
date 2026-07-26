@@ -48,14 +48,15 @@ type = "jamesfeeder/special-workspaces:special-workspaces"
 ## Settings
 
 Names are shown in full by default. Set `max_label_chars` to a positive value
-to truncate them. Hidden workspace chips use the secondary palette color by
-default; set `secondary_inactive` to `false` to make them transparent:
+to truncate them. Active and inactive workspaces can independently use a
+palette fill or a transparent ghost style:
 
 ```toml
 [widget.special-workspaces]
 type = "jamesfeeder/special-workspaces:special-workspaces"
 max_label_chars = 8
-secondary_inactive = false
+active_style = "fill"
+inactive_style = "ghost"
 ```
 
 Set `pill_radius` from `0` to `80` logical pixels. The default is `8`:
@@ -75,8 +76,8 @@ type = "jamesfeeder/special-workspaces:special-workspaces"
 hide_inactive = true
 ```
 
-While inactive workspaces are hidden, `secondary_inactive` has no runtime effect
-and is omitted from the widget settings UI.
+While inactive workspaces are hidden, `inactive_style` has no runtime effect and
+is omitted from the widget settings UI.
 
 ## Notes
 

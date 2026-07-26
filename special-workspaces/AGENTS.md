@@ -25,9 +25,9 @@ It displays populated Hyprland special workspaces as bar chips.
   inactive special workspaces.
 - `active` means visible on any monitor, not focused.
 - Preserve alphabetical ordering by workspace name.
-- Render compact chips as borderless filled rows: primary active state,
-  secondary inactive state, and transparent inactive state when secondary fill
-  is disabled. Control their 0–80px radius with the `pill_radius` widget setting.
+- Render compact chips as borderless rows. Active and inactive states each
+  support independent fill and ghost styles. Control their 0–80px radius with
+  the `pill_radius` widget setting.
 - Retain the last valid state when `hyprctl` fails. Socket failures must keep the polling fallback available.
 - Use `barWidget.render()` and keyed layout children for widget UI changes.
 

@@ -6,8 +6,9 @@ local ACTIVE_PILL_MIN_WIDTH = PILL_HEIGHT * 2.2
 local state = noctalia.state.get(STATE_KEY) or {}
 local maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
 local hideInactive = noctalia.getConfig("hide_inactive") == true
-local useSecondaryInactive = noctalia.getConfig("secondary_inactive") == true
 local pillRadius = tonumber(noctalia.getConfig("pill_radius")) or 8
+local activeStyle = noctalia.getConfig("active_style") or "fill"
+local inactiveStyle = noctalia.getConfig("inactive_style") or "fill"
 
 local function displayName(name)
   if maxLabelChars <= 0 then
@@ -28,10 +29,14 @@ local function render()
   for _, workspace in ipairs(state) do
     if workspace.active or not hideInactive then
       local name = workspace.name
-      local fill = workspace.active and "primary"
-        or (useSecondaryInactive and "secondary" or "#00000000")
-      local textColor = workspace.active and "on_primary"
-        or (useSecondaryInactive and "on_secondary" or "on_surface")
+      local style = workspace.active and activeStyle or inactiveStyle
+      local filled = style == "fill"
+      local fill = filled
+          and (workspace.active and "primary" or "secondary")
+        or "#00000000"
+      local textColor = filled
+          and (workspace.active and "on_primary" or "on_secondary")
+        or (workspace.active and "primary" or "on_surface")
       table.insert(chips, ui.row({
         key = name,
         height = PILL_HEIGHT,
@@ -62,8 +67,9 @@ end)
 function onConfigChanged()
   maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
   hideInactive = noctalia.getConfig("hide_inactive") == true
-  useSecondaryInactive = noctalia.getConfig("secondary_inactive") == true
   pillRadius = tonumber(noctalia.getConfig("pill_radius")) or 8
+  activeStyle = noctalia.getConfig("active_style") or "fill"
+  inactiveStyle = noctalia.getConfig("inactive_style") or "fill"
   render()
 end
 

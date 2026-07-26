@@ -5,6 +5,10 @@
   "settings.hide_inactive.description": "Show only special workspaces that are currently visible on a monitor.",
   "settings.pill_radius.label": "Pill corner radius",
   "settings.pill_radius.description": "Set the chip corner radius in logical pixels, from 0 to 80.",
-  "settings.secondary_inactive.label": "Fill inactive workspaces",
-  "settings.secondary_inactive.description": "Use the secondary palette color instead of a transparent background for inactive workspaces."
+  "settings.active_style.label": "Active workspace style",
+  "settings.active_style.description": "Choose whether active workspaces use a primary fill or a primary ghost label.",
+  "settings.inactive_style.label": "Inactive workspace style",
+  "settings.inactive_style.description": "Choose whether inactive workspaces use a secondary fill or a ghost label.",
+  "settings.style.fill": "Fill",
+  "settings.style.ghost": "Ghost"
 }

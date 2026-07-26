@@ -43,9 +43,24 @@ entry = "widget.luau"
   max = 80
 
   [[widget.setting]]
-  key = "secondary_inactive"
-  type = "bool"
-  label_key = "settings.secondary_inactive.label"
-  description_key = "settings.secondary_inactive.description"
-  default = true
+  key = "active_style"
+  type = "select"
+  label_key = "settings.active_style.label"
+  description_key = "settings.active_style.description"
+  default = "fill"
+  options = [
+    { value = "fill", label_key = "settings.style.fill" },
+    { value = "ghost", label_key = "settings.style.ghost" },
+  ]
+
+  [[widget.setting]]
+  key = "inactive_style"
+  type = "select"
+  label_key = "settings.inactive_style.label"
+  description_key = "settings.inactive_style.description"
+  default = "fill"
+  options = [
+    { value = "fill", label_key = "settings.style.fill" },
+    { value = "ghost", label_key = "settings.style.ghost" },
+  ]
   visible_when = { key = "hide_inactive", values = ["false"] }

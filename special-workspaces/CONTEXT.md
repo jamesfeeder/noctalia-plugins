@@ -33,9 +33,10 @@ The service uses five-second polling while the event stream is unavailable or re
   enabled.
 - Chips are slim 16px borderless fills. Their radius is controlled directly by
   the widget's `pill_radius` setting, from 0px to 80px.
-- Visible chips use a `primary` fill.
-- Hidden populated chips use a `secondary` fill by default, or a transparent
-  fill when disabled.
+- Active chips independently use either a `primary` fill or a transparent ghost
+  with primary text.
+- Inactive populated chips independently use either a `secondary` fill or a
+  transparent ghost with surface text.
 - Workspace labels show their full name by default and can be truncated with
   the widget's maximum-label-characters setting.
 
