@@ -32,7 +32,11 @@ The service uses five-second polling while the event stream is unavailable or re
 - Inactive populated special workspaces are hidden when `hide_inactive` is
   enabled.
 - Chips are slim 16px borderless fills. Their radius is controlled directly by
-  the widget's `pill_radius` setting, from 0px to 80px.
+  the widget's `capsule_radius` setting, which defaults to 8px and clamps
+  negative values to 0px. Horizontal content padding is controlled by
+  `capsule_padding` (default 5px), and minimum width by `capsule_min_width`
+  (default 35px). Both apply to active and inactive capsules and clamp negative
+  values to 0px.
 - Active chips independently use either a `primary` fill or a transparent ghost
   with primary text.
 - Inactive populated chips independently use either a `secondary` fill or a

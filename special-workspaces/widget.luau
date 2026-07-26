@@ -1,12 +1,12 @@
 local STATE_KEY = "special_workspaces"
 local PILL_HEIGHT = 16
 local PILL_GAP = 4
-local PILL_PADDING = PILL_HEIGHT * 0.3
-local ACTIVE_PILL_MIN_WIDTH = PILL_HEIGHT * 2.2
 local state = noctalia.state.get(STATE_KEY) or {}
 local maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
 local hideInactive = noctalia.getConfig("hide_inactive") == true
-local pillRadius = tonumber(noctalia.getConfig("pill_radius")) or 8
+local capsuleRadius = math.max(0, tonumber(noctalia.getConfig("capsule_radius")) or 8)
+local capsulePadding = math.max(0, tonumber(noctalia.getConfig("capsule_padding")) or 5)
+local capsuleMinWidth = math.max(0, tonumber(noctalia.getConfig("capsule_min_width")) or 35)
 local activeStyle = noctalia.getConfig("active_style") or "fill"
 local inactiveStyle = noctalia.getConfig("inactive_style") or "fill"
 
@@ -40,12 +40,12 @@ local function render()
       table.insert(chips, ui.row({
         key = name,
         height = PILL_HEIGHT,
-        minWidth = workspace.active and ACTIVE_PILL_MIN_WIDTH or PILL_HEIGHT,
-        paddingH = PILL_PADDING,
+        minWidth = capsuleMinWidth,
+        paddingH = capsulePadding,
         align = "center",
         justify = "center",
         fill = fill,
-        radius = pillRadius,
+        radius = capsuleRadius,
       }, {
         ui.label({
           text = displayName(name),
@@ -67,7 +67,9 @@ end)
 function onConfigChanged()
   maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
   hideInactive = noctalia.getConfig("hide_inactive") == true
-  pillRadius = tonumber(noctalia.getConfig("pill_radius")) or 8
+  capsuleRadius = math.max(0, tonumber(noctalia.getConfig("capsule_radius")) or 8)
+  capsulePadding = math.max(0, tonumber(noctalia.getConfig("capsule_padding")) or 5)
+  capsuleMinWidth = math.max(0, tonumber(noctalia.getConfig("capsule_min_width")) or 35)
   activeStyle = noctalia.getConfig("active_style") or "fill"
   inactiveStyle = noctalia.getConfig("inactive_style") or "fill"
   render()

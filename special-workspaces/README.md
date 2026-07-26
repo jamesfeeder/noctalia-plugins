@@ -59,13 +59,25 @@ active_style = "fill"
 inactive_style = "ghost"
 ```
 
-Set `pill_radius` from `0` to `80` logical pixels. The default is `8`:
+Set `capsule_radius` in logical pixels. The default is `8`:
 
 ```toml
 [widget.special-workspaces]
 type = "jamesfeeder/special-workspaces:special-workspaces"
-pill_radius = 4
+capsule_radius = 4
 ```
+
+Set horizontal content padding and minimum width in logical pixels. Defaults
+are `5` and `35`:
+
+```toml
+[widget.special-workspaces]
+type = "jamesfeeder/special-workspaces:special-workspaces"
+capsule_padding = 6
+capsule_min_width = 40
+```
+
+Negative radius, padding, and minimum-width values use `0`.
 
 Set `hide_inactive` to show only currently active special workspaces. Active
 workspaces remain visible even when empty:

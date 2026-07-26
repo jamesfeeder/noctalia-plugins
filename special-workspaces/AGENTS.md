@@ -26,8 +26,11 @@ It displays populated Hyprland special workspaces as bar chips.
 - `active` means visible on any monitor, not focused.
 - Preserve alphabetical ordering by workspace name.
 - Render compact chips as borderless rows. Active and inactive states each
-  support independent fill and ghost styles. Control their 0–80px radius with
-  the `pill_radius` widget setting.
+  support independent fill and ghost styles. Control their radius with the
+  `capsule_radius` widget setting, which defaults to 8px and clamps negative
+  values to 0px. Control horizontal content padding with `capsule_padding`
+  (default 5px) and minimum width with `capsule_min_width` (default 35px);
+  both apply to active and inactive capsules and clamp negative values to 0px.
 - Retain the last valid state when `hyprctl` fails. Socket failures must keep the polling fallback available.
 - Use `barWidget.render()` and keyed layout children for widget UI changes.
 

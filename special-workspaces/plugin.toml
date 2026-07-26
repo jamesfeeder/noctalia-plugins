@@ -1,6 +1,6 @@
 id = "jamesfeeder/special-workspaces"
 name = "Special Workspaces"
-version = "1.2.0"
+version = "1.3.0"
 plugin_api = 3
 author = "jamesfeeder"
 license = "MIT"
@@ -34,13 +34,25 @@ entry = "widget.luau"
   default = false
 
   [[widget.setting]]
-  key = "pill_radius"
+  key = "capsule_radius"
   type = "int"
-  label_key = "settings.pill_radius.label"
-  description_key = "settings.pill_radius.description"
+  label_key = "settings.capsule_radius.label"
+  description_key = "settings.capsule_radius.description"
   default = 8
-  min = 0
-  max = 80
+
+  [[widget.setting]]
+  key = "capsule_padding"
+  type = "int"
+  label_key = "settings.capsule_padding.label"
+  description_key = "settings.capsule_padding.description"
+  default = 5
+
+  [[widget.setting]]
+  key = "capsule_min_width"
+  type = "int"
+  label_key = "settings.capsule_min_width.label"
+  description_key = "settings.capsule_min_width.description"
+  default = 35
 
   [[widget.setting]]
   key = "active_style"
