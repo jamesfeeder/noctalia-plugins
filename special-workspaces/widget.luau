@@ -5,7 +5,9 @@ local PILL_PADDING = PILL_HEIGHT * 0.3
 local ACTIVE_PILL_MIN_WIDTH = PILL_HEIGHT * 2.2
 local state = noctalia.state.get(STATE_KEY) or {}
 local maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
+local hideInactive = noctalia.getConfig("hide_inactive") == true
 local useSecondaryInactive = noctalia.getConfig("secondary_inactive") == true
+local pillRadius = tonumber(noctalia.getConfig("pill_radius")) or 8
 
 local function displayName(name)
   if maxLabelChars <= 0 then
@@ -24,27 +26,29 @@ local function render()
   local chips = {}
 
   for _, workspace in ipairs(state) do
-    local name = workspace.name
-    local fill = workspace.active and "primary"
-      or (useSecondaryInactive and "secondary" or "#00000000")
-    local textColor = workspace.active and "on_primary"
-      or (useSecondaryInactive and "on_secondary" or "on_surface")
-    table.insert(chips, ui.row({
-      key = name,
-      height = PILL_HEIGHT,
-      minWidth = workspace.active and ACTIVE_PILL_MIN_WIDTH or PILL_HEIGHT,
-      paddingH = PILL_PADDING,
-      align = "center",
-      justify = "center",
-      fill = fill,
-      radius = PILL_HEIGHT / 2,
-    }, {
-      ui.label({
-        text = displayName(name),
-        fontSize = 11,
-        color = textColor,
-      }),
-    }))
+    if workspace.active or not hideInactive then
+      local name = workspace.name
+      local fill = workspace.active and "primary"
+        or (useSecondaryInactive and "secondary" or "#00000000")
+      local textColor = workspace.active and "on_primary"
+        or (useSecondaryInactive and "on_secondary" or "on_surface")
+      table.insert(chips, ui.row({
+        key = name,
+        height = PILL_HEIGHT,
+        minWidth = workspace.active and ACTIVE_PILL_MIN_WIDTH or PILL_HEIGHT,
+        paddingH = PILL_PADDING,
+        align = "center",
+        justify = "center",
+        fill = fill,
+        radius = pillRadius,
+      }, {
+        ui.label({
+          text = displayName(name),
+          fontSize = 11,
+          color = textColor,
+        }),
+      }))
+    end
   end
 
   barWidget.render(container({ gap = PILL_GAP, align = "center" }, chips))
@@ -57,7 +61,9 @@ end)
 
 function onConfigChanged()
   maxLabelChars = tonumber(noctalia.getConfig("max_label_chars")) or 0
+  hideInactive = noctalia.getConfig("hide_inactive") == true
   useSecondaryInactive = noctalia.getConfig("secondary_inactive") == true
+  pillRadius = tonumber(noctalia.getConfig("pill_radius")) or 8
   render()
 end
 

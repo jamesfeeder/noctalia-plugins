@@ -21,11 +21,13 @@ It displays populated Hyprland special workspaces as bar chips.
 - Keep the manifest compatible with Noctalia plugin API 3 unless a newer API capability is required.
 - Keep all state exchanged between entries plain data through `noctalia.state`; entries run in isolated VMs.
 - Render active special workspaces even when empty. Do not render inactive empty
-  special workspaces.
+  special workspaces. When `hide_inactive` is enabled, do not render any
+  inactive special workspaces.
 - `active` means visible on any monitor, not focused.
 - Preserve alphabetical ordering by workspace name.
-- Match Noctalia's regular workspace widget: compact pills, primary active state,
-  and secondary inactive state.
+- Render compact chips as borderless filled rows: primary active state,
+  secondary inactive state, and transparent inactive state when secondary fill
+  is disabled. Control their 0–80px radius with the `pill_radius` widget setting.
 - Retain the last valid state when `hyprctl` fails. Socket failures must keep the polling fallback available.
 - Use `barWidget.render()` and keyed layout children for widget UI changes.
 

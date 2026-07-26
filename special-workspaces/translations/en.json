@@ -1,6 +1,10 @@
 {
   "settings.max_label_chars.label": "Maximum label characters",
   "settings.max_label_chars.description": "Truncate workspace names to this many characters. Use 0 to show full names.",
+  "settings.hide_inactive.label": "Hide inactive workspaces",
+  "settings.hide_inactive.description": "Show only special workspaces that are currently visible on a monitor.",
+  "settings.pill_radius.label": "Pill corner radius",
+  "settings.pill_radius.description": "Set the chip corner radius in logical pixels, from 0 to 80.",
   "settings.secondary_inactive.label": "Fill inactive workspaces",
   "settings.secondary_inactive.description": "Use the secondary palette color instead of a transparent background for inactive workspaces."
 }

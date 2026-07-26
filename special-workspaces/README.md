@@ -5,17 +5,17 @@ A [Noctalia v5](https://docs.noctalia.dev/v5/plugins/) bar widget for Hyprland s
 It shows one chip for every populated or currently active special workspace,
 ordered by name. A filled primary chip is visible on at least one monitor; it
 remains shown with zero windows while active. A secondary chip is populated but
-hidden. Inactive empty special workspaces are not shown.
+hidden. Inactive empty special workspaces are not shown, and populated inactive
+workspaces can optionally be hidden too.
 
-The chips use the same compact active-pill and inactive-label treatment as
-Noctalia's regular workspace widget.
+The chips use compact borderless fills with a configurable corner radius.
 
 ## Plugin
 
 | Field | Value |
 | --- | --- |
 | id | `jamesfeeder/special-workspaces` |
-| version | `1.1.3` |
+| version | `1.2.0` |
 | plugin API | `3` |
 | widget | `jamesfeeder/special-workspaces:special-workspaces` |
 
@@ -57,6 +57,26 @@ type = "jamesfeeder/special-workspaces:special-workspaces"
 max_label_chars = 8
 secondary_inactive = false
 ```
+
+Set `pill_radius` from `0` to `80` logical pixels. The default is `8`:
+
+```toml
+[widget.special-workspaces]
+type = "jamesfeeder/special-workspaces:special-workspaces"
+pill_radius = 4
+```
+
+Set `hide_inactive` to show only currently active special workspaces. Active
+workspaces remain visible even when empty:
+
+```toml
+[widget.special-workspaces]
+type = "jamesfeeder/special-workspaces:special-workspaces"
+hide_inactive = true
+```
+
+While inactive workspaces are hidden, `secondary_inactive` has no runtime effect
+and is omitted from the widget settings UI.
 
 ## Notes
 

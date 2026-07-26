@@ -1,6 +1,6 @@
 id = "jamesfeeder/special-workspaces"
 name = "Special Workspaces"
-version = "1.1.3"
+version = "1.2.0"
 plugin_api = 3
 author = "jamesfeeder"
 license = "MIT"
@@ -27,8 +27,25 @@ entry = "widget.luau"
   max = 64
 
   [[widget.setting]]
+  key = "hide_inactive"
+  type = "bool"
+  label_key = "settings.hide_inactive.label"
+  description_key = "settings.hide_inactive.description"
+  default = false
+
+  [[widget.setting]]
+  key = "pill_radius"
+  type = "int"
+  label_key = "settings.pill_radius.label"
+  description_key = "settings.pill_radius.description"
+  default = 8
+  min = 0
+  max = 80
+
+  [[widget.setting]]
   key = "secondary_inactive"
   type = "bool"
   label_key = "settings.secondary_inactive.label"
   description_key = "settings.secondary_inactive.description"
   default = true
+  visible_when = { key = "hide_inactive", values = ["false"] }
