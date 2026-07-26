@@ -28,9 +28,11 @@ It displays populated Hyprland special workspaces as bar chips.
 - Render compact chips as borderless rows. Active and inactive states each
   support independent fill and ghost styles. Control their radius with the
   `capsule_radius` widget setting, which defaults to 8px and clamps negative
-  values to 0px. Control horizontal content padding with `capsule_padding`
-  (default 5px) and minimum width with `capsule_min_width` (default 35px);
-  both apply to active and inactive capsules and clamp negative values to 0px.
+  values to 0px. Control main-axis content padding with `capsule_padding`
+  (default 5px) and minimum main-axis length with `capsule_min_width` (default
+  35px); both apply to active and inactive capsules and clamp negative values
+  to 0px. On vertical bars, swap capsule axes and stack truncated workspace
+  names one Unicode character per line from top to bottom.
 - Retain the last valid state when `hyprctl` fails. Socket failures must keep the polling fallback available.
 - Use `barWidget.render()` and keyed layout children for widget UI changes.
 

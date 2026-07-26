@@ -67,8 +67,8 @@ type = "jamesfeeder/special-workspaces:special-workspaces"
 capsule_radius = 4
 ```
 
-Set horizontal content padding and minimum width in logical pixels. Defaults
-are `5` and `35`:
+Set content padding and minimum capsule length along the bar in logical pixels.
+Defaults are `5` and `35`:
 
 ```toml
 [widget.special-workspaces]
@@ -78,6 +78,10 @@ capsule_min_width = 40
 ```
 
 Negative radius, padding, and minimum-width values use `0`.
+
+On vertical bars, capsule axes swap: capsules use a fixed width and grow
+vertically. Workspace names are truncated first, then displayed one Unicode
+character per line from top to bottom.
 
 Set `hide_inactive` to show only currently active special workspaces. Active
 workspaces remain visible even when empty:

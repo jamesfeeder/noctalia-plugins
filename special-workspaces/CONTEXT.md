@@ -33,10 +33,11 @@ The service uses five-second polling while the event stream is unavailable or re
   enabled.
 - Chips are slim 16px borderless fills. Their radius is controlled directly by
   the widget's `capsule_radius` setting, which defaults to 8px and clamps
-  negative values to 0px. Horizontal content padding is controlled by
-  `capsule_padding` (default 5px), and minimum width by `capsule_min_width`
-  (default 35px). Both apply to active and inactive capsules and clamp negative
-  values to 0px.
+  negative values to 0px. Main-axis content padding is controlled by
+  `capsule_padding` (default 5px), and minimum main-axis length by
+  `capsule_min_width` (default 35px). Both apply to active and inactive capsules
+  and clamp negative values to 0px. Vertical bars swap capsule axes and stack
+  truncated workspace names one Unicode character per line from top to bottom.
 - Active chips independently use either a `primary` fill or a transparent ghost
   with primary text.
 - Inactive populated chips independently use either a `secondary` fill or a
