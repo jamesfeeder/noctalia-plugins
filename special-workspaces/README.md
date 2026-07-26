@@ -47,53 +47,57 @@ type = "jamesfeeder/special-workspaces:special-workspaces"
 
 ## Settings
 
-Names are shown in full by default. Set `max_label_chars` to a positive value
-to truncate them. Active and inactive workspaces can independently use a
-palette fill or a transparent ghost style:
+Configure the widget through **Settings → Bar**, or add values to its TOML
+entry:
 
 ```toml
 [widget.special-workspaces]
 type = "jamesfeeder/special-workspaces:special-workspaces"
 max_label_chars = 8
+hide_inactive = false
+capsule_radius = 4
+capsule_padding = 6
+capsule_min_width = 40
 active_style = "fill"
 inactive_style = "ghost"
 ```
 
-Set `capsule_radius` in logical pixels. The default is `8`:
+| Setting | Default | Description |
+| --- | ---: | --- |
+| `max_label_chars` | `0` | Maximum characters shown from each workspace name. `0` shows the full name. |
+| `hide_inactive` | `false` | Hide populated workspaces unless they are currently visible on a monitor. |
+| `capsule_radius` | `8` | Capsule corner radius in logical pixels. |
+| `capsule_padding` | `5` | Space before and after the label along the bar axis. |
+| `capsule_min_width` | `35` | Minimum capsule length along the bar axis. |
+| `active_style` | `"fill"` | Active capsule style: `"fill"` or `"ghost"`. |
+| `inactive_style` | `"fill"` | Inactive capsule style: `"fill"` or `"ghost"`. |
 
-```toml
-[widget.special-workspaces]
-type = "jamesfeeder/special-workspaces:special-workspaces"
-capsule_radius = 4
-```
+### Visibility and labels
 
-Set content padding and minimum capsule length along the bar in logical pixels.
-Defaults are `5` and `35`:
+Active workspaces remain visible even when empty. Inactive workspaces appear
+only while populated, unless `hide_inactive` is enabled; then only workspaces
+currently visible on a monitor are shown.
 
-```toml
-[widget.special-workspaces]
-type = "jamesfeeder/special-workspaces:special-workspaces"
-capsule_padding = 6
-capsule_min_width = 40
-```
+Workspace names are shown in full when `max_label_chars` is `0`. Positive
+values truncate each name to that many Unicode characters.
 
-Negative radius, padding, and minimum-width values use `0`.
+### Capsule appearance
 
-On vertical bars, capsule axes swap: capsules use a fixed width and grow
-vertically. Workspace names are truncated first, then displayed one Unicode
-character per line from top to bottom.
+Fill style uses the palette's `primary` colors for active workspaces and
+`secondary` colors for inactive workspaces. Ghost style removes the fill;
+active labels use `primary` text and inactive labels use `on_surface` text.
+Active and inactive styles are independent. When `hide_inactive` is enabled,
+`inactive_style` has no runtime effect and is hidden from the settings UI.
 
-Set `hide_inactive` to show only currently active special workspaces. Active
-workspaces remain visible even when empty:
+Radius, padding, and minimum length use logical pixels. Values below `0` are
+treated as `0`.
 
-```toml
-[widget.special-workspaces]
-type = "jamesfeeder/special-workspaces:special-workspaces"
-hide_inactive = true
-```
+### Vertical bars
 
-While inactive workspaces are hidden, `inactive_style` has no runtime effect and
-is omitted from the widget settings UI.
+On horizontal bars, capsule length is its width. On vertical bars, capsule
+length is its height: capsules use a fixed width and grow vertically.
+Workspace names are truncated first, then displayed one Unicode character per
+line from top to bottom.
 
 ## Notes
 
